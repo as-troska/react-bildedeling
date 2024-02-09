@@ -99,7 +99,7 @@ async function brukere (req, res) {
 }
 
 async function bilder(req, res) {
-    const stmt = db.prepare("SELECT * FROM photos")
+    const stmt = db.prepare("SELECT photos.id, photos.url, photos.caption, photos.user_id, user.brukernavn FROM photos INNER JOIN user ON photos.user_id = user.id")
     const photos = stmt.all()
     res.json(photos)   
 }
@@ -108,6 +108,15 @@ async function kommentarer(req, res) {
     const stmt = db.prepare("SELECT comments.user_id, comments.photo_id, brukernavn, comment FROM comments INNER JOIN user ON comments.user_id = user.id INNER JOIN photos ON comments.photo_id = photos.id WHERE photos.id = ?")
     const comments = stmt.all(req.params.id)
     res.json(comments)
+}
+
+async function loggetinn(req, res) {
+    console.log(req.session.loggetInn)
+    if(req.session.loggetInn) {
+        res.sendStatus(200)
+    } else {
+        res.sendStatus(401) 
+    }
 }
 
 exports.slett = slett;
@@ -121,3 +130,4 @@ exports.kommentarer = kommentarer;
 exports.liked = liked;
 exports.likes = likes;
 exports.like = like;
+exports.loggetinn = loggetinn;

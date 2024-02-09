@@ -15,7 +15,10 @@ const cors = require("cors");
 //Lager en instans av Express i variabelen app
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true
+}));
 
 //Setter opp en mappe for statiske filer
 app.use(express.static(path.join(__dirname, "public")));
@@ -31,7 +34,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(session({
     secret: "secretSomBørLagresIEnMiljøvariabel",
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    sameSite: "lax",
+    cookie: {
+        secure: false
+    }
 }));
 
 
@@ -71,17 +78,22 @@ app.listen(3000, () => {
 
 //En middleware som sjekker om brukeren er logget inn. Om ikke sender den brukeren til innloggingssiden.
 function sjekkLogin(req, res, next) {
+    
+    console.log(req.session.loggetInn)
     if (req.session.loggetInn) {
         next();
     } else {
-        res.redirect("/login");
+        //res.redirect("/login");
+        res.sendStatus(401);
     }
 }
 
 function sjekkAdmin(req, res, next) {
+    console.log(req.session.loggetInn)
     if (req.session.admin) {
         next();
     } else {
-        res.redirect("/login");
+        //res.redirect("/login");
+        res.sendStatus(401);
     }
 }

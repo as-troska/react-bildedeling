@@ -1,5 +1,5 @@
 const path = require('path');
-const db = require("better-sqlite3")("database.db");
+const db = require("better-sqlite3")("database.db", {verbose: console.log});
 const bcrypt = require("bcrypt");
 const session = require("express-session");
 const fileUpload = require("express-fileupload")
@@ -15,6 +15,7 @@ async function login(req, res) {
                 //Kjører SQL-setningen. Verdiene fra skjemaet settes inn på plassene til spørsmålstegnene. Det lagres et objekt med all informasjonen i variabelen user.
                 const user = stmt.get(req.body.brukernavn);  
                   
+                
             
                 //Sjekker om brukeren finnes og sjekker deretter om hash av passordetm som er sendt inn matcher hashen lagret i databasen
                 if (user && bcrypt.compareSync(req.body.passord, user.passord)) {
@@ -30,18 +31,23 @@ async function login(req, res) {
                     if (user.id === 1) {
                         req.session.admin = true;
                     }
+
+                    console.log(req.session)
             
                     //Sender brukeren til velkommen.html om brukeren finnes og passordet er riktig
-                    res.cookie("brukernavn", user.brukernavn)
-                    res.cookie("fornavn", user.fornavn)
-                    res.cookie("etternavn", user.etternavn)
-                    res.cookie("epost", user.epost)
-                    res.cookie("fdato", user.fdato)
-                    res.cookie("userid", user.id)
-                    res.sendFile(path.join(__dirname, "private", "velkommen.html"))
+                //     res.cookie("brukernavn", user.brukernavn)
+                //     res.cookie("fornavn", user.fornavn)
+                //     res.cookie("etternavn", user.etternavn)
+                //     res.cookie("epost", user.epost)
+                //     res.cookie("fdato", user.fdato)
+                //     res.cookie("userid", user.id)
+                //     res.sendFile(path.join(__dirname, "private", "velkommen.html"))
+                    res.sendStatus(200)
+
                 } else {
                     //Sender brukeren til feil.html om ikke brukeren finnes eller passordet er feil
-                    res.sendFile(path.join(__dirname, "public", "feil.html"))
+                    //res.sendFile(path.join(__dirname, "public", "feil.html"))
+                    res.sendStatus(401)
                 }
             }
 }
@@ -58,7 +64,8 @@ async function loginaction  (req, res) {
 
 async function loggut(req, res) {
         req.session.destroy();
-        res.redirect("/login");
+        //res.redirect("/login");
+        res.sendStatus(401)
 }
 
 async function nyttBilde(req, res) {
