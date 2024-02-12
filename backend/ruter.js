@@ -32,16 +32,16 @@ async function login(req, res) {
                     }
             
                     //Sender brukeren til velkommen.html om brukeren finnes og passordet er riktig
-                    res.cookie("brukernavn", user.brukernavn)
-                    res.cookie("fornavn", user.fornavn)
-                    res.cookie("etternavn", user.etternavn)
-                    res.cookie("epost", user.epost)
-                    res.cookie("fdato", user.fdato)
-                    res.cookie("userid", user.id)
-                    res.sendFile(path.join(__dirname, "private", "velkommen.html"))
+                //     res.cookie("brukernavn", user.brukernavn)
+                //     res.cookie("fornavn", user.fornavn)
+                //     res.cookie("etternavn", user.etternavn)
+                //     res.cookie("epost", user.epost)
+                //     res.cookie("fdato", user.fdato)
+                //     res.cookie("userid", user.id)
+                    res.sendStatus(200)
                 } else {
                     //Sender brukeren til feil.html om ikke brukeren finnes eller passordet er feil
-                    res.sendFile(path.join(__dirname, "public", "feil.html"))
+                    res.sendStatus(401)
                 }
             }
 }
