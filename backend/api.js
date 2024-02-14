@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const session = require("express-session");
 const fileUpload = require("express-fileupload")
 const fs = require("fs");
-const exp = require('constants');
+
 
 //Setter opp en rute som kan ta imot et registreringsskjema som sendes inn via POST
 async function registrer(req, res) {
@@ -74,9 +74,9 @@ async function liked(req, res) {
     const liked = stmt.get(req.params.id, req.session.userid)
 
     if(liked) {
-        res.json({liked: true})
+        res.send(true)
     } else {
-        res.json({liked: false})
+        res.send(false)
     }
 }
 
@@ -88,6 +88,12 @@ async function likes(req, res) {
 
 async function like(req, res) {
     const stmt = db.prepare("INSERT INTO likes (photo_id, user_id) VALUES (?, ?)")
+    stmt.run(req.params.id, req.session.userid)
+    res.sendStatus(200)
+}
+
+async function unlike(req, res) {
+    const stmt = db.prepare("DELETE FROM likes WHERE photo_id = ? AND user_id = ?")
     stmt.run(req.params.id, req.session.userid)
     res.sendStatus(200)
 }
@@ -105,7 +111,7 @@ async function bilder(req, res) {
 }
 
 async function kommentarer(req, res) {
-    const stmt = db.prepare("SELECT comments.user_id, comments.photo_id, brukernavn, comment FROM comments INNER JOIN user ON comments.user_id = user.id INNER JOIN photos ON comments.photo_id = photos.id WHERE photos.id = ?")
+    const stmt = db.prepare("SELECT comments.id, comments.user_id, comments.photo_id, brukernavn, comment FROM comments INNER JOIN user ON comments.user_id = user.id INNER JOIN photos ON comments.photo_id = photos.id WHERE photos.id = ?")
     const comments = stmt.all(req.params.id)
     res.json(comments)
 }
@@ -113,9 +119,30 @@ async function kommentarer(req, res) {
 async function loggetinn(req, res) {
     console.log(req.session.loggetInn)
     if(req.session.loggetInn) {
-        res.sendStatus(200)
+        const stmt = db.prepare("SELECT fornavn, etternavn, brukernavn, epost, fdato, id FROM user WHERE id = ?")
+        const user = stmt.get(req.session.userid)
+        res.json(user)        
     } else {
         res.sendStatus(401) 
+    }
+}
+
+async function slettKommentar(req, res) {
+    const stmt = db.prepare("DELETE FROM comments WHERE id = ?")
+    stmt.run(req.params.id)
+    res.sendStatus(200)
+}
+
+async function slettBilde(req, res) {
+    const stmt = db.prepare("SELECT user_id FROM photos WHERE id = ?")
+    const user = stmt.get(req.params.id)
+
+    if(user.user_id !== req.session.userid) {
+        return res.sendStatus(403)
+    } else {
+        const stmt = db.prepare("DELETE FROM photos WHERE id = ?")
+        stmt.run(req.params.id)
+        res.sendStatus(200) 
     }
 }
 
@@ -131,3 +158,6 @@ exports.liked = liked;
 exports.likes = likes;
 exports.like = like;
 exports.loggetinn = loggetinn;
+exports.unlike = unlike;
+exports.slettKommentar = slettKommentar;
+exports.slettBilde = slettBilde;

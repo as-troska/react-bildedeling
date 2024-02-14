@@ -30,9 +30,7 @@ async function login(req, res) {
             
                     if (user.id === 1) {
                         req.session.admin = true;
-                    }
-
-                    console.log(req.session)
+                    }                   
             
                     //Sender brukeren til velkommen.html om brukeren finnes og passordet er riktig
                 //     res.cookie("brukernavn", user.brukernavn)
@@ -42,7 +40,15 @@ async function login(req, res) {
                 //     res.cookie("fdato", user.fdato)
                 //     res.cookie("userid", user.id)
                 //     res.sendFile(path.join(__dirname, "private", "velkommen.html"))
-                    res.sendStatus(200)
+                    const clientUserData = {
+                        fornavn: user.fornavn,
+                        etternavn: user.etternavn,
+                        epost: user.epost,
+                        fdato: user.fdato,
+                        brukernavn: user.brukernavn,
+                        userid: user.id
+                    }
+                    res.json(clientUserData)
 
                 } else {
                     //Sender brukeren til feil.html om ikke brukeren finnes eller passordet er feil

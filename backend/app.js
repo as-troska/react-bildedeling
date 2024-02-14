@@ -48,6 +48,7 @@ app.get("/login", ruter.loginaction)
 app.get("/loggut", ruter.loggut)
 app.get("/nyttBilde", sjekkLogin, ruter.nyttBilde)
 app.get("/alleBilder", sjekkLogin, ruter.alleBilder)
+app.get("/loggetinn", api.loggetinn)
 
 
 app.post("/kommenter", sjekkLogin, api.kommenter)
@@ -61,6 +62,9 @@ app.get("/kommentarer/:id", sjekkLogin, api.kommentarer)
 app.post("/like/:id", sjekkLogin, api.like)
 app.get("/likes/:id", sjekkLogin, api.likes)
 app.get("/liked/:id", sjekkLogin, api.liked)
+app.post("/unlike/:id", sjekkLogin, api.unlike)
+app.delete("/slettKommentar/:id", sjekkLogin, api.slettKommentar)
+app.delete("/slettBilde/:id", sjekkLogin, api.slettBilde)
 
 app.get("/", (req, res) => {
     res.redirect("/login")  

@@ -1,0 +1,7 @@
+.notLiked {
+    filter: grayscale(100%);
+}
+
+.liked {
+    filter: grayscale(0%);
+}
