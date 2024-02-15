@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import './Comments.css';
 
 
 
@@ -54,30 +55,36 @@ export default (props) => {
 
     return (
 
-        <section>
+        <section className="commentBox">
             <textarea 
                 onKeyUp={handleComment}
+                className="commentInput"
             >
                 
             </textarea>
 
+            <ul className="commentList">          
             {Array.isArray(comments) && comments.length > 0 && 
                 comments.map((item, id) => {
                     console.log(item)
                     return (
                         id % 2 === 0 ?
-                        <p key={id} className='evenComment'>
-                            {item.brukernavn}: {item.comment}
-                            {item.brukernavn === props.currentUser && <button onClick={handleDelete} data-comment-id={item.id}>🗑️</button>}
-                        </p> :
-                        <p key={id} className='oddComment'>
-                            {item.brukernavn}: {item.comment}
-                            {item.brukernavn === props.currentUser && <button onClick={handleDelete}>🗑️</button>}
-                        </p>
+                        <li key={id} className='evenComment'>
+                            <span className="commentUser">{item.brukernavn}:</span> 
+                            <span className="comment">{item.comment}</span>
+                            {item.brukernavn === props.currentUser && <span onClick={handleDelete} data-comment-id={item.id} className="commentDelete">🗑️</span>}
+                        </li> :
+                        <li key={id} className='oddComment'>
+                            <span className="commentUser">{item.brukernavn}:</span> 
+                            <span className="comment">{item.comment}</span>
+                            {item.brukernavn === props.currentUser && <span onClick={handleDelete} data-comment-id={item.id} className="commentDelete">🗑️</span>}
+                        </li>
                         
                     )
                 })
+                
             }
+            </ul>
 
         </section>
     )

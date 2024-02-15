@@ -1,5 +1,5 @@
 body {
-    background-color: #2E2836;
+    background-color: #F9F5FF;
     margin: 0;
     padding: 0;
     min-height: 100vh;
@@ -8,3 +8,16 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+.mainBox {
+    margin-bottom: 100px;
+}
+
+
+
+/* SCSS HEX */
+/* $raisin-black: #28262cff;
+$tropical-indigo: #998fc7ff;
+$periwinkle: #d4c2fcff;
+$magnolia: #f9f5ffff;
+$resolution-blue: #14248aff; */

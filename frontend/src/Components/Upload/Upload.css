@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+.uploadBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+    padding: 20px;
+    border: 2px dashed #c3c3c3;
+    border-radius: 10px;
+    background-color: #998FC7;
+    color: #28262C;
+    font-size: 2.5em;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 900;
+}
+.uploadForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+    padding: 20px;
+    border: 2px dashed #c3c3c3;
+    border-radius: 10px;
+    background-color: #998FC7;
+    color: #28262C;
+    font-size: 1em; 
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 50%; 
+    max-width: 500px;
+}
+
+.uploadForm input[type="text"], .uploadForm input[type="file"] {
+    width: 100%;
+    padding: 5px; 
+    margin: 5px 0; 
+    border: 1px solid #c3c3c3;
+    border-radius: 5px;
+    font-size: 0.8em; 
+}
+
+.uploadForm input[type="submit"] {
+    width: 100%;
+    padding: 5px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #28262C;
+    color: #fff;
+    font-size: 0.8em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.uploadForm input[type="submit"]:hover {
+    background-color: #444;
+}

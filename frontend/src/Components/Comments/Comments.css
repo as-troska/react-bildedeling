@@ -1,0 +1,56 @@
+.commentBox {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.commentInput {
+    width:  100%;
+    box-sizing: border-box;
+}
+
+.commentList {
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+
+.evenComment {
+    display: flex;
+    width: 100%;
+    background-color: #D4C2FC;
+}
+
+.commentUser {
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 10px;
+    width: 100px;
+    
+    box-sizing: border-box;
+    flex: 0 0 auto; /* This will prevent .commentUser from growing and shrinking */
+}
+
+.oddComment {
+    display: flex;
+    width: 100%;
+}
+
+.comment {
+    margin: 10px;
+    flex: 1; /* This will allow .comment to grow and take up the remaining space */
+}
+
+.commentDelete {
+    cursor: pointer;
+    color: #28262cff;
+    font-weight: 700;
+    font-size: 1rem;
+    text-align: center;    
+    width: 30px;
+    flex: 0 0 auto; /* This will prevent .commentDelete from growing and shrinking */
+}

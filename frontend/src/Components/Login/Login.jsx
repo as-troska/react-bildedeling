@@ -2,8 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import "./Login.css";
 
-export default (props) => {
- 
+export default (props) => {    
     
     return (
 

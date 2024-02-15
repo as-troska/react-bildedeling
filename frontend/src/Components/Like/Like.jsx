@@ -48,20 +48,22 @@ export default (props) => {
     }; 
 
     return (
-        <section>
+        <section className="likeBox">
             {liked ? <img src="http://localhost:3000/Like.png" alt="Like" onClick={handleLike} className='liked'/> :
             <img src="http://localhost:3000/Like.png" alt="Liked" onClick={handleLike} className="notLiked"/>
             }
 
             {
                 likes.length > 0 &&
-                <span> : {likes.length}</span>
+                <span className="likeNumber"> : {likes.length}</span>
             }
+            <ul className="likeList">
             {
                 Array.isArray(likes) && likes.map((like, id) => (
-                    <span key={id}>{like.brukernavn} </span>
+                    <li key={id} className="likeItem">{like.brukernavn} </li>
                 ))
             }
+            </ul>
         </section>
     )
 }

@@ -3,12 +3,14 @@ import { useState, useEffect } from "react";
 import Login from "./Components/Login/Login";
 import "./App.css";
 import Picture from "./Components/Picture/Picture";
-
+import Nav from "./Components/Nav/Nav";
+import Upload from "./Components/Upload/Upload";
 
 export default () => {
   	const [loggedIn, setLoggedIn] = useState(false);
 	const [userData, setUserData] = useState();
 	const [pictures, setPictures] = useState();
+	const [menu, setMenu] = useState("bilder");
 
 
 	useEffect(() => {
@@ -26,7 +28,7 @@ export default () => {
 			}
 		}	
 		checkLoginState()
-	}, [])
+	}, [menu])
 
 	const handleLogin = async (evt) => {
 		evt.preventDefault();
@@ -42,6 +44,7 @@ export default () => {
         if (result.status === 200) {
 			setUserData(await result.json());
             setLoggedIn(true);
+			setMenu("bilder");
 			getPictures();
         }   
 	};
@@ -70,27 +73,36 @@ export default () => {
 	};	
 
     return (
-  		<main>
-			{loggedIn ? (
-			pictures && pictures.length > 0 ? pictures.map((picture) => (
-				<Picture
-				key={picture.id}
-				pictureId={picture.id}
-				username={picture.brukernavn}
-				src={picture.url}
-				alt={picture.caption}
-				text={picture.caption}
-				currentUser={userData.brukernavn}
-				handleDelete={() => handleDelete(picture.id)}
-				/>
-			)) : (
-				<p>Loading</p>
-			)
+  		<main className="mainBox">
+			{loggedIn || menu != "loggInn" ? (
+				<>
+					{menu === "bilder" && Array.isArray(pictures) && 
+						pictures.slice().reverse().map((picture) => (
+							<Picture
+								key={picture.id}
+								pictureId={picture.id}
+								username={picture.brukernavn}
+								src={picture.url}
+								alt={picture.caption}
+								text={picture.caption}
+								currentUser={userData.brukernavn}
+								handleDelete={() => handleDelete(picture.id)}
+							/>
+						))}
+					{menu === "lastOpp" && 
+						<Upload setMenu={setMenu} />
+					}
+					{menu === "profil" && 
+						<Profile />
+					}
+
+					<Nav setMenu={setMenu} />
+				</>
 			) : (
-				<Login login={handleLogin} />
-			)}  
-		  
+				<Login login={handleLogin} setMenu={setMenu} />
+			)}
 		</main>
+		
 	);
 
 } 
